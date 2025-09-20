@@ -12,3 +12,4 @@ requests
 httpx
 google-generativeai
 instagrapi==2.2.1
+imgkit
