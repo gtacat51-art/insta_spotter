@@ -1,6 +1,7 @@
 import imgkit
 import jinja2
 import os
+from pathlib import Path
 from config import settings
 
 class ImageGenerator:
@@ -35,7 +36,7 @@ class ImageGenerator:
         
         # Crea un URL assoluto e corretto per il file del font
         font_path = os.path.abspath(os.path.join(self.template_base_dir, 'fonts', 'Komika_Axis.ttf'))
-        font_url = f"file:///{font_path.replace('\\', '/')}"
+        font_url = Path(font_path).as_uri()
 
         return template.render(message=message_text, id=message_id, font_url=font_url)
 
@@ -91,7 +92,7 @@ if __name__ == '__main__':
     test_message = "Ho spottato una ragazza con un libro di poesie alla fermata del 17. Mi ha sorriso e ha reso la mia giornata migliore. Chissà se leggerà mai questo messaggio."
     
     # Genera l'immagine
-    image_path = generator.from_text(test_message, "test_card.png")
+    image_path = generator.from_text(test_message, "test_card.png", 1)
 
     if image_path:
         print(f"\nTest completato. Immagine di prova creata in: {image_path}")
