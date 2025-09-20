@@ -35,11 +35,16 @@ class SpottedMessage(Base):
 
 # --- Configurazione del Database ---
 
-# Crea il motore del database. `check_same_thread` è necessario per SQLite.
-engine = create_engine(
-    settings.database.db_url, 
-    connect_args={"check_same_thread": False}
-)
+# Logica per creare il motore del database
+if settings.database.db_url.startswith("sqlite"):
+    # Configurazione specifica per SQLite
+    engine = create_engine(
+        settings.database.db_url,
+        connect_args={"check_same_thread": False}
+    )
+else:
+    # Configurazione per altri database (es. PostgreSQL)
+    engine = create_engine(settings.database.db_url)
 
 # Crea una sessione del database configurata
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
